@@ -1,5 +1,6 @@
 package com.example.newjsonproject;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -22,6 +23,8 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
+    String json_string;
+    String JSON_STRING;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,10 +35,15 @@ public class MainActivity extends AppCompatActivity {
          new BackgroundTask().execute();
     }
 
+    public void parsejson(View view){
+        Intent intent = new Intent(this,DisplayListView.class);
+        intent.putExtra("json_data",JSON_STRING);
+        startActivity(intent);
+    }
+
 
     class BackgroundTask extends AsyncTask<Void,Void,String> {
 
-        String json_string;
         String json_url = "http://192.168.10.103:8888/project/getjson.php";
         @Override
         protected String doInBackground(Void... voids) {
@@ -69,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             TextView textView = findViewById(R.id.textView);
             textView.setText(result);
+            JSON_STRING=result;
+
         }
 
         @Override
